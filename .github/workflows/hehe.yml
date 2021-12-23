@@ -19,15 +19,8 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-    - run: docker buildx create --use
     - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: ./
-        file: ./Dockerfile
-        builder: ${{ steps.buildx.outputs.name }}
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:latest
-        cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache
-        cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache,mode=max
+      run: |
+        docker buildx create --use
+        docker buildx build -f Dockerfile -t hello-world:latest --cache-from=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache --cache-to=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache,mode=max .
+        docker buildx push hello-world:latest
