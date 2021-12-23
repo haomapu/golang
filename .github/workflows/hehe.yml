@@ -22,5 +22,5 @@ jobs:
     - name: Build and push
       run: |
         docker buildx create --use
-        docker buildx build -f Dockerfile -t hello-world:latest --cache-from=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache --cache-to=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache,mode=max .
+        docker buildx build -f Dockerfile -t hello-world:latest --push --cache-from=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache --cache-to=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache,mode=max .
         docker buildx push hello-world:latest
