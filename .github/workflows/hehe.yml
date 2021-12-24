@@ -20,8 +20,8 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     - name: Docker Build and push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GB_TOKEN }}
       run: | 
         docker buildx create --use
-        docker buildx build --load -f Dockerfile -t hello-world:latest --cache-from=type=gha --cache-to=type=gha .
+        docker buildx build -f Dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:latest \
+        --cache-from=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache \
+        --cache-to=type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/hello-world:buildcache,mode=max .
