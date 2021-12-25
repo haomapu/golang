@@ -41,21 +41,8 @@ jobs:
           ${{ runner.os }}-multi-buildx
 
     - name: Build production image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        builder: ${{ steps.buildx.outputs.name }}
-        file: ./Dockerfile
-        # Set the desired build target here
-        target: production
-        push: false
-        tags: ${{ steps.prep.outputs.tagged_image }}
-        cache-from: type=local,src=/tmp/.buildx-cache
-        # Note the mode=max here
-        # More: https://github.com/moby/buildkit#--export-cache-options
-        # And: https://github.com/docker/buildx#--cache-tonametypetypekeyvalue
-        cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
-
+      run:
+        docker buildx build --target production -t ${{ steps.prep.outputs.tagged_image }} --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
     - name: Move cache
       run: |
         rm -rf /tmp/.buildx-cache
