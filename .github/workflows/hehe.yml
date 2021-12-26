@@ -42,7 +42,7 @@ jobs:
 
     - name: Build production image
       run:
-        docker buildx build --target production -t ${{ steps.prep.outputs.tagged_image }} --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
+        docker buildx build --target production -t my-images --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
     - name: Move cache
       run: |
         rm -rf /tmp/.buildx-cache
