@@ -26,7 +26,7 @@ jobs:
 
     - name: Build production image
       run: |
-        docker buildx create --use true
+        docker buildx create --use
         docker buildx build --target production -t my-images --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
     - name: Move cache
       run: |
