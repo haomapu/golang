@@ -31,8 +31,8 @@ jobs:
 
     - name: Build production image
       run: |
-        buildctl build --export-cache type=local,dest=/tmp/.buildx-cache
-        buildctl build --import-cache type=local,src=/tmp/.buildx-cache-new
+        buildctl build ... --export-cache type=local,dest=/tmp/.buildx-cache
+        buildctl build ... --import-cache type=local,src=/tmp/.buildx-cache-new
         docker buildx build --target production --load -t ${{ steps.prep.outputs.tagged_image }}  --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
