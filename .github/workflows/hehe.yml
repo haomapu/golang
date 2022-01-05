@@ -31,6 +31,6 @@ jobs:
 
     - name: Build production image
       run: |
-        docker buildx build --target production --load -t my-images:latest --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
+        docker buildx build --target production --output=type=local,dest=/tmp/.buildx-cache-new -t my-images:latest --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
