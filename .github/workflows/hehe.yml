@@ -11,26 +11,33 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-        
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@master
-      with:
-        install: true
-        
-    - name: Cache Docker layers
-      uses: actions/cache@v2
-      with:
-        path: /tmp/.buildx-cache
-        # Key is named differently to avoid collision
-        key: ${{ runner.os }}-hehe-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx
+    - uses: actions/checkout@v2
 
-    - name: Build production image
+    - uses: actions/cache@v1
+      with:
+        path: ${{ env.BUILD_CACHE }}
+        key: ${{ hashFiles('Dockerfile') }}
+
+    - name: Install the latest buildkit release
       run: |
-        docker buildx build --target production --output=type=local,dest=/tmp/.buildx-cache-new -t my-images:latest --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,mode=max,dest=/tmp/.buildx-cache-new .
-        rm -rf /tmp/.buildx-cache
-        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+        BUILDKIT_URL="$(curl -sL https://api.github.com/repos/moby/buildkit/releases \
+          | jq -r 'map(select(.name|startswith("v")))|sort_by(.name)[-1].assets[]|select(.name|endswith(".linux-amd64.tar.gz")).browser_download_url')"
+        curl -L "${BUILDKIT_URL}" | sudo tar -xz -C /usr/local
+    - name: Start buildkit daemon
+      run: |
+        sudo --non-interactive --shell <<END_SUDO
+          install -d -m 0750 -o root -g docker /run/buildkit
+          buildkitd &
+          while ! test -S /run/buildkit/buildkitd.sock; do sleep 0.1; done
+          chgrp docker /run/buildkit/buildkitd.sock
+        END_SUDO
+    - name: Build docker image
+      run: |
+        buildctl build \
+          --frontend=dockerfile.v0 --local dockerfile=. --local context=. \
+          --export-cache type=local,dest=${BUILD_CACHE},mode=max \
+          --import-cache type=local,src=${BUILD_CACHE} \
+          --output type=docker,name=${DOCKER_IMAGE} | docker load
+        echo "Cache size: $(du -sh ${BUILD_CACHE})"
+    - name: Launch a container based on the new image (example)
+      run: ./bin/docker run --rm ${DOCKER_IMAGE} ...
