@@ -13,31 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: actions/cache@v1
-      with:
-        path: ${{ env.BUILD_CACHE }}
-        key: ${{ hashFiles('Dockerfile') }}
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-    - name: Install the latest buildkit release
-      run: |
-        BUILDKIT_URL="$(curl -sL https://api.github.com/repos/moby/buildkit/releases \
-          | jq -r 'map(select(.name|startswith("v")))|sort_by(.name)[-1].assets[]|select(.name|endswith(".linux-amd64.tar.gz")).browser_download_url')"
-        curl -L "${BUILDKIT_URL}" | sudo tar -xz -C /usr/local
-    - name: Start buildkit daemon
-      run: |
-        sudo --non-interactive --shell <<END_SUDO
-          install -d -m 0750 -o root -g docker /run/buildkit
-          buildkitd &
-          while ! test -S /run/buildkit/buildkitd.sock; do sleep 0.1; done
-          chgrp docker /run/buildkit/buildkitd.sock
-        END_SUDO
     - name: Build docker image
       run: |
-        buildctl build \
-          --frontend=dockerfile.v0 --local dockerfile=. --local context=. \
-          --export-cache type=local,dest=${BUILD_CACHE},mode=max \
-          --import-cache type=local,src=${BUILD_CACHE} \
-          --output type=docker,name=${DOCKER_IMAGE} | docker load
-        echo "Cache size: $(du -sh ${BUILD_CACHE})"
-    - name: Launch a container based on the new image (example)
-      run: ./bin/docker run --rm ${DOCKER_IMAGE} ...
+        docker buildx build -f Dockerfile --load -t my-images:latest --cache-from=type=gha --cache-to=type=gha,mode=max .
