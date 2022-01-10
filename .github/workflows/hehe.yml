@@ -18,4 +18,4 @@ jobs:
 
     - name: Build docker image
       run: |
-        docker buildx build --push -f Dockerfile --load -t my-images:latest --cache-from=type=gha --cache-to=type=gha,mode=max .
+        docker buildx build --push=type=gha -f Dockerfile --load -t my-images:latest --cache-from=type=gha --cache-to=type=gha,mode=max .
