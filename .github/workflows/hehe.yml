@@ -23,4 +23,10 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }} 
         
     - name: Build and push
-      run: docker buildx build --cache-from type=gha --cache-to type=gha,mode=max --iidfile /tmp/docker-build-push-MW5xT8/iidfile --provenance mode=max,builder-id=https://github.com/***/golang/actions/runs/4184555570 --tag ***/app:latest --metadata-file /tmp/docker-build-push-MW5xT8/metadata-file --push .
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: "$DOCKERHUB_USERNAME/app:latest"
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
