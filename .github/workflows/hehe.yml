@@ -27,6 +27,6 @@ jobs:
       with:
         context: .
         push: true
-        tags: "haompau/app:latest"
+        tags: "haomapu/app:latest"
         cache-from: type=gha
         cache-to: type=gha,mode=max
