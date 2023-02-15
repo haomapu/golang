@@ -23,10 +23,5 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }} 
         
     - name: Build and push
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      run: |-
+        docker buildx build -t haomapu/app:latest --cache-to type=gha --cache-from type=gha,mode=max .
