@@ -24,4 +24,4 @@ jobs:
         
     - name: Build and push
       run: |-
-        docker buildx build -t haomapu/app:latest --cache-to type=gha --cache-from type=gha,mode=max .
+        docker buildx build --push -t haomapu/app:latest --cache-to type=gha --cache-from type=gha,mode=max .
