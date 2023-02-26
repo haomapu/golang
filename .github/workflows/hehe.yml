@@ -32,5 +32,5 @@ jobs:
         context: .
         push: true
         tags: "haomapu/app:latest"
-        cache-from: type=gha, scope=${{ github.workflow }}
-        cache-to: type=gha, scope=${{ github.workflow }}
+        cache-from: type=gha, scope=abc
+        cache-to: type=gha, mode=max, scope=abc
