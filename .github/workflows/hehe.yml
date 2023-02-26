@@ -33,4 +33,4 @@ jobs:
         push: true
         tags: "haomapu/app:latest"
         cache-from: type=gha, scope=abc
-        cache-to: type=gha, scope=abc
+        cache-to: type=gha, mode=max, scope=abc
