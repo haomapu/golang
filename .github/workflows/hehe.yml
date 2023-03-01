@@ -18,4 +18,4 @@ jobs:
           token: ${{ secrets.REPO_B_TOKEN }}
           repository: haomapu/trigger
           event-type: my-event
-          client-payload: '{"branch": "hello", "username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}"}'
+          client-payload: '{"branch": "haomapu", "username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}"}'
