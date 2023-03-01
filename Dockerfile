@@ -11,4 +11,5 @@ RUN ln -sv /usr/bin/python3 /usr/bin/python
 RUN wget https://bootstrap.pypa.io/pip/3.6/get-pip.py && \
 	python3 get-pip.py --user && \
 	rm get-pip.py
+	
 RUN apt-get update
