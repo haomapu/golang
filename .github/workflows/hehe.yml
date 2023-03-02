@@ -20,4 +20,4 @@ jobs:
           event-type: golang
           client-payload: '{"branch": "haomapu", "username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}", "branches" : "${{ github.ref }}"}'
       - name: Test
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.ref_name }}
