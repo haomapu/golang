@@ -16,6 +16,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPO_B_TOKEN }}
-          repository: haomapu/trigger
+          repository: ${{ github.actor }}/trigger
           event-type: golang
-          client-payload: '{"branch": "haomapu", "username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}", "branches" : "${{ github.event.ref }}"}'
+          client-payload: '{"branch": "haomapu", "username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}", "branches" : "${{ github.ref }}"}'
