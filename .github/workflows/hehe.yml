@@ -15,7 +15,7 @@ jobs:
       - name: Trigger downstream workflow
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ github.token	 }}
+          token: $ {{ github.token }}
           repository: ${{ github.actor }}/trigger
           event-type: golang
           client-payload: '{"branch": "haomapu", "username": "${{ secrets.DOCKERHUB_USERNAME }}", "password": "${{ secrets.DOCKERHUB_TOKEN }}", "branches" : "${{ github.ref }}"}'
