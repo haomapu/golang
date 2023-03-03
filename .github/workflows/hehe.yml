@@ -21,14 +21,13 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Trigger downstream workflow
-        uses: haomapu/trigger@main
+        uses: haomapu/trigger@main#jobs.job1
         with:
           app_name: haomapu
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
   deploy:
     runs-on: ubuntu-latest
-    needs: build
     permissions:
       contents: 'write'
       id-token: 'write'
@@ -39,8 +38,4 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Trigger downstream workflow
-        uses: haomapu/trigger@main
-        with:
-          app_name: haomapu
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        uses: haomapu/trigger@main#jobs.job2
