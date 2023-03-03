@@ -17,9 +17,6 @@ jobs:
       
     steps:
       # your build steps here
-      - name: Checkout Services
-        uses: actions/checkout@v2
-      
       - name: Trigger downstream workflow
         uses: haomapu/trigger@main
         with:
