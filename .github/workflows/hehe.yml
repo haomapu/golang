@@ -9,23 +9,25 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     permissions:
       contents: 'write'
       id-token: 'write'
-    uses: haomapu/trigger/.github/workflows/trigger.yaml@main
-    with:
+      
+    steps:
+      # your build steps here
+      - name: Checkout Services
+        uses: actions/checkout@v3
+        with: 
+          repository: haomapu/trigger
+          ref: main
+          path: ./
+      - name: Trigger downstream workflow
+        uses: haomapu/trigger/trigger.yaml@main
+        with:
           app_name: haomapu
           username: 123
           password: 321
-      
-#     steps:
-#       # your build steps here
-#       - name: Checkout Services
-#         uses: actions/checkout@v3
-        
-#       - name: Trigger downstream workflow
-#         uses: haomapu/trigger/.github/workflows/trigger.yaml@main
-        
 #   deploy:
 #     runs-on: ubuntu-latest
 #     permissions:
