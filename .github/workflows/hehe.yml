@@ -6,10 +6,18 @@ on:
     types: [opened, synchronize, reopened]
     branches:    
       - 'main'
-      
+
+permission:
+  read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+      
     steps:
       # your build steps here
       - name: Trigger downstream workflow
