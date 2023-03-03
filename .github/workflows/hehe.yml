@@ -13,7 +13,7 @@ jobs:
     steps:
       # your build steps here
       - name: Trigger downstream workflow
-        uses: haomapu/trigger@main
+        uses: haomapu/trigger/setup-trigger@main
         with:
           app_name: haomapu
           username: ${{ secrets.DOCKERHUB_USERNAME }}
