@@ -15,8 +15,8 @@ jobs:
     uses: haomapu/trigger/.github/workflows/trigger.yaml@main
     with:
           app_name: haomapu
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: 123
+          password: 321
       
 #     steps:
 #       # your build steps here
