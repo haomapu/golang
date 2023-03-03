@@ -23,7 +23,7 @@ jobs:
           ref: main
           path: ./
       - name: Trigger downstream workflow
-        uses: haomapu/trigger/trigger.yaml@main
+        uses: haomapu/trigger/test-action.yml@main
         with:
           app_name: haomapu
           username: 123
