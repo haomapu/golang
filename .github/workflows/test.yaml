@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:    
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+    uses: haomapu/trigger/.github/workflows/trigger.yaml@main
+    with:
+      app_name: haomapu
+      username: 123
+      password: 321
