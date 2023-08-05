@@ -22,6 +22,7 @@ jobs:
           repository: haomapu/trigger
           ref: main
           path: ./
+      - run: echo ${{ var.MY_VAR }} >> ./text.txt
       - name: Trigger downstream workflow
         uses: haomapu/trigger@main
         with:
