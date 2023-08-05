@@ -23,12 +23,6 @@ jobs:
           ref: main
           path: ./
       - run: echo ${{ var.MY_VAR }} >> ./text.txt
-      - name: Trigger downstream workflow
-        uses: haomapu/trigger@main
-        with:
-          app_name: haomapu
-          username: 123
-          password: 321
 #   deploy:
 #     runs-on: ubuntu-latest
 #     permissions:
