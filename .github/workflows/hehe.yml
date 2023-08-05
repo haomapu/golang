@@ -23,6 +23,7 @@ jobs:
           ref: main
           path: ./
       - run: echo "${{ vars.MY_VAR }}" >> ./text.txt
+      - run: cat ./text.txt
 #   deploy:
 #     runs-on: ubuntu-latest
 #     permissions:
